@@ -1,0 +1,49 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:FerryCrossing.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvs="using:LiveChartsCore.SkiaSharpView.Avalonia"
+
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="850"
+        
+        x:Class="FerryCrossing.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="FerryCrossing">
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <StackPanel>
+        <TextBox Text="Route" Name="RouteTextBox" Margin="5"/>
+        <TextBox Text="Number of Cars" Name="CarsTextBox" Margin="5"/>
+        <TextBox Text="Number of People" Name="PeopleTextBox" Margin="5"/>
+        <Button Content="Simulate Ferry Crossing" Click="SimulateButton_Click" Margin="5"/>
+        <StackPanel Name="SettingsPanel" Margin="5">
+            <TextBlock Text="Simulation Settings" FontWeight="Bold" Margin="5"/>
+            <CheckBox Content="Include Cargo" Name="CargoCheckBox" Margin="5"/>
+            <Slider Minimum="1" Maximum="10" Value="5" Name="SpeedSlider" Margin="5,5,560,5"/>
+            <TextBlock Text="Wait Time (minutes):" Margin="5,5,560,5"/>
+            <TextBox Name="WaitTimeTextBox" Margin="5,5,560,5"/>
+            <CheckBox Content="Take a break" Margin="5,5,560,5"></CheckBox>
+            <TextBlock Text="Weather Conditions:" Margin="5,5,560,5"/>
+            <ComboBox Name="WeatherComboBox" Margin="5,5,560,5">
+                <ComboBoxItem Content="Sunny"/>
+                <ComboBoxItem Content="Rainy"/>
+                <ComboBoxItem Content="Snowy"/>
+            </ComboBox>
+            
+            <lvs:CartesianChart
+                Height="300"
+                Width="400"
+                Series="{Binding Series}"
+                Title="{Binding Title}"
+            ></lvs:CartesianChart>
+        </StackPanel>
+    </StackPanel>
+    
+
+</Window>
