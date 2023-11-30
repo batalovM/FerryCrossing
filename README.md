@@ -1,3 +1,3 @@
 ﻿# FerryCrossing
  курсач 2 курс)
- ![Screenshot](OPmOnTpXsxA.png)
+ ![Screenshot](FerryCrossing/OPmOnTpXsxA.png)
