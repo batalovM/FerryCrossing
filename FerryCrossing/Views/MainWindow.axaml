@@ -12,7 +12,7 @@
         FontSize="18"
         x:Class="FerryCrossing.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon ="/Assets/free-icon-ship-870119.png"
         Title="FerryCrossing">
     <Design.DataContext>
         <vm:MainWindowViewModel/>
