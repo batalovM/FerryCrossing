@@ -5,45 +5,60 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvs="using:LiveChartsCore.SkiaSharpView.Avalonia"
 
-        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="850"
-        
+        mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="350"
+        Height="350"
+        Width="960"
+        FontFamily="Calibri"
+        FontSize="18"
         x:Class="FerryCrossing.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="FerryCrossing">
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-
-    <StackPanel>
-        <TextBox Text="Route" Name="RouteTextBox" Margin="5"/>
-        <TextBox Text="Number of Cars" Name="CarsTextBox" Margin="5"/>
-        <TextBox Text="Number of People" Name="PeopleTextBox" Margin="5"/>
-        <Button Content="Simulate Ferry Crossing" Click="SimulateButton_Click" Margin="5"/>
-        <StackPanel Name="SettingsPanel" Margin="5">
-            <TextBlock Text="Simulation Settings" FontWeight="Bold" Margin="5"/>
-            <CheckBox Content="Include Cargo" Name="CargoCheckBox" Margin="5"/>
-            <Slider Minimum="1" Maximum="10" Value="5" Name="SpeedSlider" Margin="5,5,560,5"/>
-            <TextBlock Text="Wait Time (minutes):" Margin="5,5,560,5"/>
-            <TextBox Name="WaitTimeTextBox" Margin="5,5,560,5"/>
-            <CheckBox Content="Take a break" Margin="5,5,560,5"></CheckBox>
-            <TextBlock Text="Weather Conditions:" Margin="5,5,560,5"/>
-            <ComboBox Name="WeatherComboBox" Margin="5,5,560,5">
-                <ComboBoxItem Content="Sunny"/>
-                <ComboBoxItem Content="Rainy"/>
-                <ComboBoxItem Content="Snowy"/>
-            </ComboBox>
-            
-            <lvs:CartesianChart
-                Height="300"
-                Width="400"
-                Series="{Binding Series}"
-                Title="{Binding Title}"
-            ></lvs:CartesianChart>
+    <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal">
+            <Grid
+                ColumnDefinitions="200"
+                RowDefinitions="Auto, Auto, Auto, Auto">
+                <TextBox Grid.Column="0" Grid.Row="0" Watermark="Рейс" Margin="5"></TextBox>
+                <TextBox Grid.Column="0" Grid.Row="1" Watermark="Время начала" Margin="5"></TextBox>
+                <TextBox Grid.Column="0" Grid.Row="2" Watermark="Время окончания" Margin="5"></TextBox>
+                <Button Grid.Column="0" Grid.Row="3" Content="Simulate Ferry Crossing" Click="SimulateButton_Click" Margin="5"/>
+            </Grid>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Grid ColumnDefinitions="120" RowDefinitions="Auto">
+                <lvs:CartesianChart Grid.Column="0" Grid.Row="0"
+                                    Margin="200,0,200,200"
+                                    Height="300"
+                                    Width="400"
+                                    Series="{Binding Series}"
+                                    Title="{Binding Title}"
+                ></lvs:CartesianChart>
+            </Grid>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Grid ColumnDefinitions="220"
+                  RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto">
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Настройки" FontWeight="Bold" Margin="5"/>
+                <CheckBox Grid.Column="0"  Grid.Row="1" Content="Включить погрузку багажа у пассажира" Name="CargoCheckBox" Margin="5"/>
+                <TextBlock Grid.Column="0"  Grid.Row="3" Text="Время ожидания:" Margin="5"/>
+                <TextBox Grid.Column="0" Grid.Row="4" Watermark="" Name="WaitTimeTextBox" Margin="5"/>
+                <CheckBox Grid.Column="0" Grid.Row="5" Content="Персонал уходит на обед" Margin="5"></CheckBox>
+                <CheckBox Grid.Column="0" Grid.Row="6" Content="Сделать машины не легковыми"></CheckBox>
+                <TextBlock Grid.Column="0" Grid.Row="7" Text="Погодные условия:" Margin="5"/>
+                <ComboBox Grid.Column="0"  Grid.Row="8" Name="WeatherComboBox" Margin="5">
+                    <ComboBoxItem Content="Солнечно"/>
+                    <ComboBoxItem Content="Дождливо"/>
+                    <ComboBoxItem Content="Снежно"/>
+                    <ComboBoxItem Content="Шторм"/>
+                </ComboBox>
+            </Grid>
         </StackPanel>
     </StackPanel>
+        
     
 
 </Window>
