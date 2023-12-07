@@ -14,9 +14,11 @@
         x:DataType="vm:MainWindowViewModel"
         Icon ="/Assets/free-icon-ship-870119.png"
         Title="FerryCrossing">
+    
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
+    
     <StackPanel Orientation="Horizontal">
         <StackPanel Orientation="Horizontal">
             <Grid
@@ -29,7 +31,7 @@
             </Grid>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <Grid ColumnDefinitions="120" RowDefinitions="Auto">
+            <Grid ColumnDefinitions="120" RowDefinitions="Auto, Auto, Auto">
                 <lvs:CartesianChart Grid.Column="0" Grid.Row="0"
                                     Margin="200,0,200,200"
                                     Height="300"
@@ -37,6 +39,7 @@
                                     Series="{Binding Series}"
                                     Title="{Binding Title}"
                 ></lvs:CartesianChart>
+                
             </Grid>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
