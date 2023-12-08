@@ -1,4 +1,4 @@
 ﻿# FerryCrossing
  курсач 2 курс)
- ![Screenshot](FerryCrossing/Примерработы.png)
- ![Screenshot](FerryCrossing/схема.png)
+ ![Screenshot](FerryCrossing/Пример работы.png)
+ ![Screenshot](FerryCrossing/схема.jpg)
