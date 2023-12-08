@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvs="using:LiveChartsCore.SkiaSharpView.Avalonia"
+        xmlns:skiaSharpView="clr-namespace:LiveChartsCore.SkiaSharpView;assembly=LiveChartsCore.SkiaSharpView"
 
         mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="350"
         Height="350"
@@ -24,10 +25,13 @@
             <Grid
                 ColumnDefinitions="200"
                 RowDefinitions="Auto, Auto, Auto, Auto">
-                <TextBox Grid.Column="0" Grid.Row="0" Watermark="Рейс" Margin="5"></TextBox>
-                <TextBox Grid.Column="0" Grid.Row="1" Watermark="Время начала" Margin="5"></TextBox>
-                <TextBox Grid.Column="0" Grid.Row="2" Watermark="Время окончания" Margin="5"></TextBox>
-                <Button Grid.Column="0" Grid.Row="3" Content="Simulate Ferry Crossing" Click="SimulateButton_Click" Margin="5"/>
+               
+                <TextBox Grid.Column="0" Grid.Row="1" Watermark="Время начала" Margin="5"
+                         Text="{Binding StartTime, Mode=TwoWay}"></TextBox>
+                <TextBox Grid.Column="0" Grid.Row="2" Watermark="Время окончания" Margin="5"
+                         Text="{Binding EndTime, Mode=TwoWay}"></TextBox>
+                <Button Grid.Column="0" Grid.Row="3" Content="Simulate Ferry Crossing" Margin="5"
+                        Command="{Binding GenerateChart}"/>
             </Grid>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
@@ -36,23 +40,24 @@
                                     Margin="200,0,200,200"
                                     Height="300"
                                     Width="400"
-                                    Series="{Binding Series}"
+                                    Series="{Binding Series, Mode=TwoWay }"
                                     Title="{Binding Title}"
                 ></lvs:CartesianChart>
-                
             </Grid>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <Grid ColumnDefinitions="220"
                   RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto">
                 <TextBlock Grid.Column="0" Grid.Row="0" Text="Настройки" FontWeight="Bold" Margin="5"/>
-                <CheckBox Grid.Column="0"  Grid.Row="1" Content="Включить погрузку багажа у пассажира" Name="CargoCheckBox" Margin="5"/>
-                <TextBlock Grid.Column="0"  Grid.Row="3" Text="Время ожидания:" Margin="5"/>
-                <TextBox Grid.Column="0" Grid.Row="4" Watermark="" Name="WaitTimeTextBox" Margin="5"/>
-                <CheckBox Grid.Column="0" Grid.Row="5" Content="Персонал уходит на обед" Margin="5"></CheckBox>
-                <CheckBox Grid.Column="0" Grid.Row="6" Content="Сделать машины не легковыми"></CheckBox>
+                <CheckBox Grid.Column="0"  Grid.Row="1" Content="Включить погрузку багажа у пассажира" Name="CargoCheckBox" 
+                          IsChecked="{Binding EnableCargoLoading, Mode=TwoWay}"
+                          Margin="5"/>
+                <CheckBox Grid.Column="0" Grid.Row="5" Content="Персонал уходит на обед" Margin="5"
+                          IsChecked="{Binding StaffGoesForLunch, Mode=TwoWay}"></CheckBox>
+                <CheckBox Grid.Column="0" Grid.Row="6" Content="Сделать машины не легковыми"
+                          IsChecked="{Binding NonPassengerCars, Mode=TwoWay}"></CheckBox>
                 <TextBlock Grid.Column="0" Grid.Row="7" Text="Погодные условия:" Margin="5"/>
-                <ComboBox Grid.Column="0"  Grid.Row="8" Name="WeatherComboBox" Margin="5">
+                <ComboBox Grid.Column="0"  Grid.Row="8" Name="WeatherComboBox" Margin="5" SelectedItem="{Binding WeatherConditions, Mode=TwoWay}">
                     <ComboBoxItem Content="Солнечно"/>
                     <ComboBoxItem Content="Дождливо"/>
                     <ComboBoxItem Content="Снежно"/>
