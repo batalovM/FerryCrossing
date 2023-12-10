@@ -12,9 +12,5 @@ public partial class MainWindow : Window
         InitializeComponent();
         
     }
-
-    private void SimulateButton_Click(object? sender, RoutedEventArgs e)
-    {
-        throw new System.NotImplementedException();
-    }
+   
 }

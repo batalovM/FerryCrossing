@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FerryCrossing.Models;
+﻿namespace FerryCrossing.Models.Classes;
 
 public abstract class FerryCrossingSettings
 {

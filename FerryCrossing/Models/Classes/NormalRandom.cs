@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FerryCrossing.Models;
+namespace FerryCrossing.Models.Classes;
 //класс для реализации закона нормального распределения 
 internal class NormalRandom : Random
 {

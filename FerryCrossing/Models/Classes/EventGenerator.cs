@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using FerryCrossing.Models.Interfaces;
 
-namespace FerryCrossing.Models;
+namespace FerryCrossing.Models.Classes;
 //класс реализации законов распределения 
 public class EventGenerator : IEventGenerator
 {

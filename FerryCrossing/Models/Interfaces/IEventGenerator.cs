@@ -1,4 +1,4 @@
-﻿namespace FerryCrossing.Models;
+﻿namespace FerryCrossing.Models.Interfaces;
 
 public interface IEventGenerator
 {

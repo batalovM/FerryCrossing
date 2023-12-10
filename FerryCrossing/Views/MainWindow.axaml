@@ -30,7 +30,7 @@
                          Text="{Binding StartTime, Mode=TwoWay}"></TextBox>
                 <TextBox Grid.Column="0" Grid.Row="2" Watermark="Время окончания" Margin="5"
                          Text="{Binding EndTime, Mode=TwoWay}"></TextBox>
-                <Button Grid.Column="0" Grid.Row="3" Content="Simulate Ferry Crossing" Margin="5"
+                <Button Grid.Column="0" Grid.Row="3" Content="Моделировать" Margin="5"
                         Command="{Binding GenerateChart}"/>
             </Grid>
         </StackPanel>
