@@ -73,21 +73,12 @@ public class MainWindowViewModel : ReactiveObject
         TextSize = 20,
         Padding = new LiveChartsCore.Drawing.Padding(15),
     };
-    private void addT(double start, double end, Ferry ferry)
-    {
-        FerryList = new Ferry();
-        var data = FerryList.ProcessQueueWithMultipleThreads(start, end);
-
-        Console.WriteLine($"Количество данных в списке: {data.Count}");
-        foreach (var d in data)
-        {
-            Data.Add(d);
-        }
-    }
+    
 
     public ReactiveCommand<Unit, Unit> GenerateChart { get; }
     private static List<double> Data { get;} = new();
-    private Ferry FerryList { get; set; }
+    private Ferry FerryList1 { get; set; }
+    private Ferry FerryList2 { get; set; }
 
     public MainWindowViewModel()
     {
@@ -95,25 +86,18 @@ public class MainWindowViewModel : ReactiveObject
     }
     private void UpdateChart()
     {
-        Data.Clear(); // Очистить старые данные
+        Data.Clear(); 
         var start = StartTime;
         var end = EndTime;
-        FerryList = new Ferry();
-        var data = FerryList.ProcessQueueWithMultipleThreads(start, end);
+        FerryList1 = new Ferry();
+        FerryList2 = new Ferry();
+        var data = FerryList1.ProcessQueueWithMultipleThreads(start, end, FerryList1, FerryList2);
         Console.WriteLine($"Количество данных в списке: {data.Count}");
         foreach (var d in data)
         {
             Data.Add(d);
         }
-        //addT(start, end, FerryList);
         Console.WriteLine(Data.Count);
-        // var data = FerryList.ProcessQueueWithMultipleThreads(start, end);
-        // Console.WriteLine($"Количество данных в списке: {data.Count}");
-        // foreach (var d in data)
-        // {
-        //     Data.Add(d);
-        // }
-        //
          Series = new ISeries[] { new ColumnSeries<double> {Values = Data, Fill = new SolidColorPaint(SKColors.Blue)} };
         this.RaisePropertyChanged(nameof(Data));
         this.RaisePropertyChanged(nameof(Series));
