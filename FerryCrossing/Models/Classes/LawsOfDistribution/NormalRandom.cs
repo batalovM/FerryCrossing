@@ -23,6 +23,6 @@ internal class NormalRandom : Random
         while (u <= -1 || v <= -1 || s >= 1 || s == 0);
         var r = Math.Sqrt(-2 * Math.Log(s) / s);
         _prevSample = r * v;
-        return  r * u;
+        return 10 + r * u;
     }
 }

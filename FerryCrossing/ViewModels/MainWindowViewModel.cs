@@ -1,7 +1,11 @@
 ﻿
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reactive;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using DynamicData;
 using FerryCrossing.Models.Classes;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
@@ -14,14 +18,14 @@ namespace FerryCrossing.ViewModels;
 
 public class MainWindowViewModel : ReactiveObject
 {
-    private string _startTime;
-    public string StartTime
+    private double _startTime;
+    public double StartTime
     {
         get => _startTime;
         set => this.RaiseAndSetIfChanged(ref _startTime, value);
     }
-    private string _endTime;
-    public string EndTime
+    private double _endTime;
+    public double EndTime
     {
         get => _endTime;
         set => this.RaiseAndSetIfChanged(ref _endTime, value);
@@ -54,40 +58,65 @@ public class MainWindowViewModel : ReactiveObject
     }
     //переменные для связки с xaml
     
-    public ISeries[] Series { get; set; } = { new ColumnSeries<double> { Values = Data, Fill = new SolidColorPaint(SKColors.Blue) } };
-
-    private static void addT()
+    public ISeries[] Series { get; set; } =
     {
-        var generate = new EventGenerator();
-        for (var i = 1; i < 10; i++)
+        new ColumnSeries<double>
         {
-            var value = generate.GenerateNormalEvent() + 10; // Пример генерации данных с нормальным распределением
-            Data.Add(value);
+            Values = Data, 
+            Fill = new SolidColorPaint(SKColors.Blue) 
         }
-    }
-
+    };
+    
     public LabelVisual Title { get; set; } = new()
     {
         Text = "Результаты моделирования",
         TextSize = 20,
         Padding = new LiveChartsCore.Drawing.Padding(15),
     };
-
-    public ICommand GenerateChart { get; }
-    private static List<double> Data = new();
-    public MainWindowViewModel()
+    private void addT(double start, double end, Ferry ferry)
     {
-        addT();
-        GenerateChart = ReactiveCommand.CreateFromTask(UpdateChart);
-        
+        FerryList = new Ferry();
+        var data = FerryList.ProcessQueueWithMultipleThreads(start, end);
+
+        Console.WriteLine($"Количество данных в списке: {data.Count}");
+        foreach (var d in data)
+        {
+            Data.Add(d);
+        }
     }
 
-    private static Task UpdateChart()
+    public ReactiveCommand<Unit, Unit> GenerateChart { get; }
+    private static List<double> Data { get;} = new();
+    private Ferry FerryList { get; set; }
+
+    public MainWindowViewModel()
+    {
+        GenerateChart = ReactiveCommand.Create(UpdateChart);
+    }
+    private void UpdateChart()
     {
         Data.Clear(); // Очистить старые данные
-        // addT(); // Добавить новые данные
-        // Series = new ISeries[] { new ColumnSeries<double> { Values = Data, Fill = new SolidColorPaint(SKColors.Blue) } }; // Обновить график
-        return Task.CompletedTask;
+        var start = StartTime;
+        var end = EndTime;
+        FerryList = new Ferry();
+        var data = FerryList.ProcessQueueWithMultipleThreads(start, end);
+        Console.WriteLine($"Количество данных в списке: {data.Count}");
+        foreach (var d in data)
+        {
+            Data.Add(d);
+        }
+        //addT(start, end, FerryList);
+        Console.WriteLine(Data.Count);
+        // var data = FerryList.ProcessQueueWithMultipleThreads(start, end);
+        // Console.WriteLine($"Количество данных в списке: {data.Count}");
+        // foreach (var d in data)
+        // {
+        //     Data.Add(d);
+        // }
+        //
+         Series = new ISeries[] { new ColumnSeries<double> {Values = Data, Fill = new SolidColorPaint(SKColors.Blue)} };
+        this.RaisePropertyChanged(nameof(Data));
+        this.RaisePropertyChanged(nameof(Series));
     }
 }
 

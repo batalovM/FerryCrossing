@@ -11,10 +11,11 @@ public class EventGenerator : IEventGenerator
         var r = new NormalRandom();
         return r.NextDouble();
     }
+    
     public double GenerateExponentialEvent()
     {
         const double lambda = 0.5;
         var u = Random.NextDouble(); // рандомное число от 0 до 1
-        return -Math.Log(1 - u) / lambda; // генерация экспоненциального распределения
+        return (-Math.Log(1 - u) / lambda) + 5; // генерация экспоненциального распределения
     }
 }
