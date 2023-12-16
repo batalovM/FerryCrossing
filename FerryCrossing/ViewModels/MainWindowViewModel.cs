@@ -98,7 +98,7 @@ public class MainWindowViewModel : ReactiveObject
             Data.Add(d);
         }
         Console.WriteLine(Data.Count);
-         Series = new ISeries[] { new ColumnSeries<double> {Values = Data, Fill = new SolidColorPaint(SKColors.Blue)} };
+        Series = new ISeries[] { new ColumnSeries<double> {Values = Data, Fill = new SolidColorPaint(SKColors.Blue)} };
         this.RaisePropertyChanged(nameof(Data));
         this.RaisePropertyChanged(nameof(Series));
     }
