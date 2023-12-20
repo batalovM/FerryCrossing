@@ -14,8 +14,8 @@ public class EventGenerator : IEventGenerator
     
     public double GenerateExponentialEvent()
     {
-        const double lambda = 0.5;
+        const double lambda = 0.1;
         var u = Random.NextDouble(); // рандомное число от 0 до 1
-        return (-Math.Log(1 - u) / lambda) + 5; // генерация экспоненциального распределения
+        return (-Math.Log(1 - u) / lambda) + 2; // генерация экспоненциального распределения
     }
 }

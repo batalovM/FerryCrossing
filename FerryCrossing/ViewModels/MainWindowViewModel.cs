@@ -77,8 +77,7 @@ public class MainWindowViewModel : ReactiveObject
 
     public ReactiveCommand<Unit, Unit> GenerateChart { get; }
     private static List<double> Data { get;} = new();
-    private Ferry FerryList1 { get; set; }
-    private Ferry FerryList2 { get; set; }
+    private QueueFerry QueueFerryList { get; set; }
 
     public MainWindowViewModel()
     {
@@ -89,9 +88,10 @@ public class MainWindowViewModel : ReactiveObject
         Data.Clear(); 
         var start = StartTime;
         var end = EndTime;
-        FerryList1 = new Ferry();
-        FerryList2 = new Ferry();
-        var data = FerryList1.ProcessQueueWithMultipleThreads(start, end, FerryList1, FerryList2);
+        QueueFerryList = new QueueFerry();
+        var f1 = new Ferry();
+        var f2 = new Ferry();
+        var data = QueueFerryList.ProcessQueueWithMultipleThreads(start, end, f1, f2);
         Console.WriteLine($"Количество данных в списке: {data.Count}");
         foreach (var d in data)
         {
