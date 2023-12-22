@@ -2,7 +2,7 @@
 
 public class Ferry
 {
-    public const int CapacityPerson = 50;
-    public const int CapacityCar = 20;
-    public const int CapacityTruck = 10;
+    public  int CapacityPerson => 20; 
+    public  int CapacityCar => 10; 
+    public  int CapacityTruck => 5; 
 }

@@ -88,10 +88,10 @@ public class MainWindowViewModel : ReactiveObject
         Data.Clear(); 
         var start = StartTime;
         var end = EndTime;
-        QueueFerryList = new QueueFerry();
         var f1 = new Ferry();
-        var f2 = new Ferry();
-        var data = QueueFerryList.ProcessQueueWithMultipleThreads(start, end, f1, f2);
+        var f2 = new Ferry(); 
+        QueueFerryList = new QueueFerry(f1, f2);
+        var data = QueueFerryList.ProcessQueue(start, end);
         Console.WriteLine($"Количество данных в списке: {data.Count}");
         foreach (var d in data)
         {
