@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "cffNrZLRuWyv7G7IZIYK+8RAmSV941szAKV/SedN7/t15ddPeYqMTnsiB+d6en/p+rOVhh8vzKJYbuAvYV6OLA==",
+  "dgSpecHash": "8lXr21zq0Y1JDW3y0GvG7TXW8joMjN99FuOfhq0mqxznQilprnHO1zX1FTCJt7QH196W/Ff8XLcEd2lurRTQcg==",
   "success": true,
   "projectFilePath": "C:\\Users\\bmaks\\RiderProjects\\FerryCrossing\\FerryCrossing\\FerryCrossing.csproj",
   "expectedPackageFiles": [
@@ -41,6 +41,7 @@
     "C:\\Users\\bmaks\\.nuget\\packages\\microsoft.netcore.platforms\\2.1.2\\microsoft.netcore.platforms.2.1.2.nupkg.sha512",
     "C:\\Users\\bmaks\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\bmaks\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\bmaks\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\bmaks\\.nuget\\packages\\reactiveui\\18.3.1\\reactiveui.18.3.1.nupkg.sha512",
     "C:\\Users\\bmaks\\.nuget\\packages\\skiasharp\\2.88.6\\skiasharp.2.88.6.nupkg.sha512",
     "C:\\Users\\bmaks\\.nuget\\packages\\skiasharp.harfbuzz\\2.88.6\\skiasharp.harfbuzz.2.88.6.nupkg.sha512",

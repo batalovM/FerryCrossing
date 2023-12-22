@@ -280,3 +280,4 @@ C:\Users\bmaks\RiderProjects\FerryCrossing\FerryCrossing\obj\Debug\net7.0\FerryC
 C:\Users\bmaks\RiderProjects\FerryCrossing\FerryCrossing\obj\Debug\net7.0\FerryCrossing.csproj.CopyComplete
 C:\Users\bmaks\RiderProjects\FerryCrossing\FerryCrossing\obj\Debug\net7.0\FerryCrossing.genruntimeconfig.cache
 C:\Users\bmaks\RiderProjects\FerryCrossing\FerryCrossing\obj\Debug\net7.0\ref\FerryCrossing.dll
+C:\Users\bmaks\RiderProjects\FerryCrossing\FerryCrossing\bin\Debug\net7.0\Newtonsoft.Json.dll

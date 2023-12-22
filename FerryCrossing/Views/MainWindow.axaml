@@ -24,7 +24,7 @@
         <StackPanel Orientation="Horizontal">
             <Grid
                 ColumnDefinitions="200"
-                RowDefinitions="Auto, Auto, Auto, Auto">
+                RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
                
                 <TextBox Grid.Column="0" Grid.Row="1" Watermark="Время начала" Margin="5"
                          Text="{Binding StartTime, Mode=TwoWay}"></TextBox>
@@ -32,6 +32,7 @@
                          Text="{Binding EndTime, Mode=TwoWay}"></TextBox>
                 <Button Grid.Column="0" Background="CornflowerBlue" Grid.Row="3" Content="Моделировать" Margin="5"
                         Command="{Binding GenerateChart}"/>
+                <TextBox Grid.Column="0" Grid.Row="4" Text="{Binding TextBox1}" IsReadOnly="True" Margin="5"/>
             </Grid>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
@@ -57,12 +58,7 @@
                 <CheckBox Grid.Column="0" Grid.Row="6" Content="Сделать машины не легковыми"
                           IsChecked="{Binding NonPassengerCars, Mode=TwoWay}"></CheckBox>
                 <TextBlock Grid.Column="0" Grid.Row="7" Text="Погодные условия:" Margin="5"/>
-                <ComboBox Grid.Column="0"  Grid.Row="8" Name="WeatherComboBox" Margin="5" SelectedItem="{Binding WeatherConditions, Mode=TwoWay}">
-                    <ComboBoxItem Content="Солнечно"/>
-                    <ComboBoxItem Content="Дождливо"/>
-                    <ComboBoxItem Content="Снежно"/>
-                    <ComboBoxItem Content="Шторм"/>
-                </ComboBox>
+                <ComboBox Grid.Column="0"  Grid.Row="8" ItemsSource="{Binding WeatherList}" SelectedIndex="{Binding WeatherConditions, Mode=TwoWay}" Name="WeatherComboBox" Margin="5"/>
             </Grid>
         </StackPanel>
     </StackPanel>

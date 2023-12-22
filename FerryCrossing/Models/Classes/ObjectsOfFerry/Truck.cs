@@ -2,7 +2,7 @@
 
 namespace FerryCrossing.Models.Classes;
 
-public class Truck : Object, ICrossingObject
+public class Truck : ICrossingObject
 {
     
     public string Type => "Truck";

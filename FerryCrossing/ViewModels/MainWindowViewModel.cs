@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.VisualElements;
+using Newtonsoft.Json;
 using ReactiveUI;
 using SkiaSharp;
 
@@ -18,6 +20,7 @@ namespace FerryCrossing.ViewModels;
 
 public class MainWindowViewModel : ReactiveObject
 {
+    private const string Path = @"C:\Users\bmaks\RiderProjects\FerryCrossing\FerryCrossing\Assets\database.json";
     private double _startTime;
     public double StartTime
     {
@@ -42,22 +45,28 @@ public class MainWindowViewModel : ReactiveObject
         get => _staffGoesForLunch;
         set => this.RaiseAndSetIfChanged(ref _staffGoesForLunch, value);
     }
-
     private bool _nonPassengerCars;
     public bool NonPassengerCars
     {
         get => _nonPassengerCars;
         set => this.RaiseAndSetIfChanged(ref _nonPassengerCars, value);
     }
-
-    private string _weatherConditions;
-    public string WeatherConditions
+    private int _weatherConditions;
+    public int WeatherConditions
     {
         get => _weatherConditions;
         set => this.RaiseAndSetIfChanged(ref _weatherConditions, value);
     }
+
+    private string _textBox1 = "";
+
+    public string TextBox1
+    {
+        get => _textBox1;
+        set => this.RaiseAndSetIfChanged(ref _textBox1, value);
+    }
+    public List<string> WeatherList { get; set; } = new() { "Солнечно", "Дождливо", "Снежно", "Шторм" };
     //переменные для связки с xaml
-    
     public ISeries[] Series { get; set; } =
     {
         new ColumnSeries<double>
@@ -66,18 +75,15 @@ public class MainWindowViewModel : ReactiveObject
             Fill = new SolidColorPaint(SKColors.Blue) 
         }
     };
-    
     public LabelVisual Title { get; set; } = new()
     {
         Text = "Результаты моделирования",
         TextSize = 20,
         Padding = new LiveChartsCore.Drawing.Padding(15),
     };
-    
-
     public ReactiveCommand<Unit, Unit> GenerateChart { get; }
     private static List<double> Data { get;} = new();
-    private QueueFerry QueueFerryList { get; set; }
+    private QueueFerry QueueFerryList { get; set; } = null!;
 
     public MainWindowViewModel()
     {
@@ -91,16 +97,45 @@ public class MainWindowViewModel : ReactiveObject
         var f1 = new Ferry();
         var f2 = new Ferry(); 
         QueueFerryList = new QueueFerry(f1, f2);
-        var data = QueueFerryList.ProcessQueue(start, end);
-        Console.WriteLine($"Количество данных в списке: {data.Count}");
-        foreach (var d in data)
-        {
-            Data.Add(d);
-        }
-        Console.WriteLine(Data.Count);
+        var data = QueueFerryList.ProcessQueue(start, end, EnableCargoLoading, StaffGoesForLunch, NonPassengerCars);
+        Data.AddRange(data);
         Series = new ISeries[] { new ColumnSeries<double> {Values = Data, Fill = new SolidColorPaint(SKColors.Blue)} };
         this.RaisePropertyChanged(nameof(Data));
         this.RaisePropertyChanged(nameof(Series));
+        if (WeatherConditions == 0) TextBox1 = "Прибытие через 1 час";
+        if (WeatherConditions == 1) TextBox1 = "Прибытие через 2 часа";
+        if (WeatherConditions == 2) TextBox1 = "Прибытие через 3 часа";
+        if (WeatherConditions == 3) TextBox1 = "Рейс откладывается \nдо улучшения \nпогодных условий";
+        var db = new DataBase(StartTime, EndTime, EnableCargoLoading, StaffGoesForLunch, NonPassengerCars, Data, Series);
+        var json = db.ToJson();
+        File.WriteAllText(Path, json);
+        Console.WriteLine(json);
     }
+    public void WriteFieldsToJson()
+    {
+        var db = new DataBase(
+            StartTime,
+            EndTime,
+            EnableCargoLoading,
+            StaffGoesForLunch,
+            NonPassengerCars,
+            Data,
+            Series
+        );
+        var t = new List<object> {StartTime, EndTime, EnableCargoLoading, StaffGoesForLunch, NonPassengerCars, Data, Series};
+        
+        var newJson = JsonConvert.SerializeObject(t);
+        File.WriteAllText(Path, newJson);
+    }
+    // private void SaveData()
+    // {
+    //     var db = new DataBase(StartTime, EndTime, EnableCargoLoading, StaffGoesForLunch, NonPassengerCars, Data, Series);
+    //     var json = File.ReadAllText(Path);
+    //     db = JsonConvert.DeserializeObject<DataBase>(json);
+    //     var newJson = JsonConvert.SerializeObject(db);
+    //     File.WriteAllText(Path, newJson);
+    //     Console.WriteLine("записано");
+    // }
+        
 }
 
