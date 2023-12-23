@@ -12,28 +12,23 @@ public class DataBase
     public bool _staffGoesForLunch{ get; set; }
     public bool _nonPassengerCars{ get; set; }
     public List<double> _list{ get; set; }
-    public ISeries[] _series{ get; set; }
+    public string _text { get; set; }
+    //public ISeries[] _series{ get; set; }
 
-    public DataBase(double startTime, double endTime, bool enableCargoLoading, bool staffGoesForLunch, bool nonPassengerCars, List<double> list, ISeries[] series)
-    {
-        _startTime = startTime;
-        _endTime = endTime;
-        _enableCargoLoading = enableCargoLoading;
-        _staffGoesForLunch = staffGoesForLunch;
-        _nonPassengerCars = nonPassengerCars;
-        _list = list;
-        _series = series;
-    }
+    // public DataBase(double startTime, double endTime, bool enableCargoLoading, bool staffGoesForLunch, bool nonPassengerCars, List<double> list, ISeries[] series)
+    // {
+    //     _startTime = startTime;
+    //     _endTime = endTime;
+    //     _enableCargoLoading = enableCargoLoading;
+    //     _staffGoesForLunch = staffGoesForLunch;
+    //     _nonPassengerCars = nonPassengerCars;
+    //     _list = list;
+    //     _series = series;
+    // }
 
     public override string ToString()
     {
-        return $"StartTime: {_startTime}" +
-               $"EndTime: {_endTime}" +
-               $"EnableCargoLoading: {_enableCargoLoading}" +
-               $"StaffGoesForLunch: {_staffGoesForLunch}" +
-               $"NonPassegerCars: {_nonPassengerCars}" +
-               $"List: {_list}" +
-               $"Series: {_series}";
+        return $"StartTime: {_startTime} EndTime: {_endTime} EnableCargoLoading: {_enableCargoLoading} StaffGoesForLunch: {_staffGoesForLunch} NonPassegerCars: {_nonPassengerCars} List: {_list}";
     }
     public string ToJson()
     {

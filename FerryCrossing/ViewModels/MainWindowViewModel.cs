@@ -2,11 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reactive;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using DynamicData;
 using FerryCrossing.Models.Classes;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
@@ -20,53 +16,24 @@ namespace FerryCrossing.ViewModels;
 
 public class MainWindowViewModel : ReactiveObject
 {
-    private const string Path = @"C:\Users\bmaks\RiderProjects\FerryCrossing\FerryCrossing\Assets\database.json";
+    private const string Path = @"C:\Users\batal\RiderProjects\FerryCrossing\FerryCrossing\Assets\database.json";
     private double _startTime;
-    public double StartTime
-    {
-        get => _startTime;
-        set => this.RaiseAndSetIfChanged(ref _startTime, value);
-    }
+    public double StartTime {get => _startTime; set => this.RaiseAndSetIfChanged(ref _startTime, value); }
     private double _endTime;
-    public double EndTime
-    {
-        get => _endTime;
-        set => this.RaiseAndSetIfChanged(ref _endTime, value);
-    }
+    public double EndTime {get => _endTime; set => this.RaiseAndSetIfChanged(ref _endTime, value); }
     private bool _enableCargoLoading;
-    public bool EnableCargoLoading
-    {
-        get => _enableCargoLoading;
-        set => this.RaiseAndSetIfChanged(ref _enableCargoLoading, value);
-    }
+    public bool EnableCargoLoading { get => _enableCargoLoading; set => this.RaiseAndSetIfChanged(ref _enableCargoLoading, value); }
     private bool _staffGoesForLunch;
-    public bool StaffGoesForLunch
-    {
-        get => _staffGoesForLunch;
-        set => this.RaiseAndSetIfChanged(ref _staffGoesForLunch, value);
-    }
+    public bool StaffGoesForLunch { get => _staffGoesForLunch; set => this.RaiseAndSetIfChanged(ref _staffGoesForLunch, value); }
     private bool _nonPassengerCars;
-    public bool NonPassengerCars
-    {
-        get => _nonPassengerCars;
-        set => this.RaiseAndSetIfChanged(ref _nonPassengerCars, value);
-    }
+    public bool NonPassengerCars { get => _nonPassengerCars; set => this.RaiseAndSetIfChanged(ref _nonPassengerCars, value); }
     private int _weatherConditions;
-    public int WeatherConditions
-    {
-        get => _weatherConditions;
-        set => this.RaiseAndSetIfChanged(ref _weatherConditions, value);
-    }
+    public int WeatherConditions { get => _weatherConditions; set => this.RaiseAndSetIfChanged(ref _weatherConditions, value); }
 
     private string _textBox1 = "";
 
-    public string TextBox1
-    {
-        get => _textBox1;
-        set => this.RaiseAndSetIfChanged(ref _textBox1, value);
-    }
+    public string TextBox1 { get => _textBox1; set => this.RaiseAndSetIfChanged(ref _textBox1, value); }
     public List<string> WeatherList { get; set; } = new() { "Солнечно", "Дождливо", "Снежно", "Шторм" };
-    //переменные для связки с xaml
     public ISeries[] Series { get; set; } =
     {
         new ColumnSeries<double>
@@ -82,11 +49,12 @@ public class MainWindowViewModel : ReactiveObject
         Padding = new LiveChartsCore.Drawing.Padding(15),
     };
     public ReactiveCommand<Unit, Unit> GenerateChart { get; }
-    private static List<double> Data { get;} = new();
+    private static List<double> Data { get; set; } = new();
     private QueueFerry QueueFerryList { get; set; } = null!;
 
     public MainWindowViewModel()
     {
+        LoadJson();
         GenerateChart = ReactiveCommand.Create(UpdateChart);
     }
     private void UpdateChart()
@@ -106,36 +74,38 @@ public class MainWindowViewModel : ReactiveObject
         if (WeatherConditions == 1) TextBox1 = "Прибытие через 2 часа";
         if (WeatherConditions == 2) TextBox1 = "Прибытие через 3 часа";
         if (WeatherConditions == 3) TextBox1 = "Рейс откладывается \nдо улучшения \nпогодных условий";
-        var db = new DataBase(StartTime, EndTime, EnableCargoLoading, StaffGoesForLunch, NonPassengerCars, Data, Series);
-        var json = db.ToJson();
-        File.WriteAllText(Path, json);
-        Console.WriteLine(json);
+        SaveData();
     }
-    public void WriteFieldsToJson()
+    private void SaveData()
     {
-        var db = new DataBase(
-            StartTime,
-            EndTime,
-            EnableCargoLoading,
-            StaffGoesForLunch,
-            NonPassengerCars,
-            Data,
-            Series
-        );
-        var t = new List<object> {StartTime, EndTime, EnableCargoLoading, StaffGoesForLunch, NonPassengerCars, Data, Series};
-        
-        var newJson = JsonConvert.SerializeObject(t);
-        File.WriteAllText(Path, newJson);
+        var d = new DataBase
+        {
+            _startTime = StartTime,
+            _endTime = EndTime,
+            _enableCargoLoading = EnableCargoLoading,
+            _staffGoesForLunch = StaffGoesForLunch,
+            _nonPassengerCars = NonPassengerCars,
+            _list = Data,
+            _text = TextBox1
+        };
+        Console.WriteLine(d);
+        var str = JsonConvert.SerializeObject(d, Formatting.Indented);
+        File.WriteAllText(Path,str);
     }
-    // private void SaveData()
-    // {
-    //     var db = new DataBase(StartTime, EndTime, EnableCargoLoading, StaffGoesForLunch, NonPassengerCars, Data, Series);
-    //     var json = File.ReadAllText(Path);
-    //     db = JsonConvert.DeserializeObject<DataBase>(json);
-    //     var newJson = JsonConvert.SerializeObject(db);
-    //     File.WriteAllText(Path, newJson);
-    //     Console.WriteLine("записано");
-    // }
-        
+
+    private void LoadJson()
+    {
+        var str = File.ReadAllText(Path);
+        var data = JsonConvert.DeserializeObject<DataBase>(str);
+        StartTime = data!._startTime;
+        EndTime = data._endTime;
+        EnableCargoLoading = data._enableCargoLoading;
+        StaffGoesForLunch = data._staffGoesForLunch;
+        NonPassengerCars = data._nonPassengerCars;
+        Data = data._list;
+        TextBox1 = data._text;
+        Series = new ISeries[] { new ColumnSeries<double> {Values = Data, Fill = new SolidColorPaint(SKColors.Blue)} };
+        this.RaisePropertyChanged(nameof(Series));
+    }
 }
 
